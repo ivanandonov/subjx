@@ -135,7 +135,7 @@ export default class Subject {
 
         let _container = el.parentNode;
 
-        let _proportions = false;
+        let _proportions;
 
         if (isDef(options)) {
 

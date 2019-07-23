@@ -17,12 +17,18 @@ import {
 } from './common'
 
 const MIN_SIZE = 2;
-const BRACKETS = `
-        <div class="dg dg-normal"></div>
+const BRACKETS_CORNERS = `
         <div class="dg-hdl dg-hdl-t dg-hdl-l dg-hdl-tl"></div>
         <div class="dg-hdl dg-hdl-t dg-hdl-r dg-hdl-tr"></div>
         <div class="dg-hdl dg-hdl-b dg-hdl-r dg-hdl-br"></div>
-        <div class="dg-hdl dg-hdl-b dg-hdl-l dg-hdl-bl"></div>
+        <div class="dg-hdl dg-hdl-b dg-hdl-l dg-hdl-bl"></div>`;
+const BRACKETS_PROPORTIONS = `
+        <div class="dg dg-normal"></div>
+        ${BRACKETS_CORNERS}
+        <div class="dg-hdl dg-rotator"></div>`;
+const BRACKETS = `
+        <div class="dg dg-normal"></div>
+       ${BRACKETS_CORNERS}
         <div class="dg-hdl dg-hdl-t dg-hdl-c dg-hdl-tc"></div>
         <div class="dg-hdl dg-hdl-b dg-hdl-c dg-hdl-bc"></div>
         <div class="dg-hdl dg-hdl-m dg-hdl-l dg-hdl-ml"></div>
@@ -70,7 +76,7 @@ export default class Draggable extends Subject {
         };
 
         const controls = document.createElement('div');
-        controls.innerHTML = BRACKETS;
+        controls.innerHTML = this.storage.proportions ? BRACKETS_PROPORTIONS : BRACKETS;
 
         addClass(controls, 'dg-controls');
 
@@ -303,8 +309,8 @@ export default class Draggable extends Subject {
 
         const { style } = controls;
 
-        const newWidth = cw + dx,
-            newHeight = ch + dy;
+        let newWidth = cw + (this.storage.proportions ? Math.min(dx, dy) : dx),
+            newHeight = ch + (this.storage.proportions ? Math.min(dx, dy) : dy);
 
         if (newWidth < MIN_SIZE || newHeight < MIN_SIZE) return;
 
