@@ -299,12 +299,18 @@ export default class Subject {
                 handle.is(handles.tl) ||
                 handle.is(handles.tc);
 
+            const isCenter = handle.is(handles.ml) ||
+                handle.is(handles.mr) ||
+                handle.is(handles.tc) ||
+                handle.is(handles.bc);
+
             dx = dox ? (revX ? - dx : dx) : 0,
                 dy = doy ? (revY ? - dy : dy) : 0;
 
             ctx._resize(
                 dx,
-                dy
+                dy,
+                isCenter
             );
 
             if (resizeEach) {
@@ -313,7 +319,8 @@ export default class Subject {
                     ctx,
                     {
                         dx,
-                        dy
+                        dy,
+                        isCenter
                     }
                 );
             }
