@@ -16,7 +16,7 @@ import {
     floatToFixed
 } from './common'
 
-const MIN_SIZE = 2;
+const MIN_SIZE = 20;
 const BRACKETS_START = `<div class="dg dg-normal"></div>
         <div class="dg-hdl dg-rotator"></div>`;
 const BRACKETS_CORNERS = `
@@ -317,9 +317,13 @@ export default class Draggable extends Subject {
         const { style } = controls;
 
         let newWidth = cw + (this.storage.proportions && !isCenter ? Math.min(dx, dy) : dx),
-            newHeight = ch + (this.storage.proportions && !isCenter ? Math.min(dx, dy) : dy);
+            newHeight = ch + (this.storage.proportions && !isCenter ? newWidth/cw*ch - ch : dy);
 
-        if (newWidth < MIN_SIZE || newHeight < MIN_SIZE) return;
+        if (newWidth < Math.max(MIN_SIZE, (this.storage.minWidth || 0))
+            || newHeight < Math.max(MIN_SIZE, (this.storage.minHeight || 0))
+        ) {
+            return;
+        }
 
         style.width = `${newWidth}px`;
         style.height = `${newHeight}px`;
