@@ -10,7 +10,7 @@ import {
 } from '../util/util'
 
 import {
-    addClass,
+    addClass, getTransform, parseMatrix,
     removeClass
 } from '../util/css-util'
 
@@ -83,6 +83,24 @@ export default class Subject {
 
         proxyMethods.onDestroy.call(this, el);
         delete this.storage;
+    }
+
+    setAngle(angle) {
+        const {
+            snap,
+            controls,
+            parent,
+        } = this.storage;
+        this.storage.transform = {
+            matrix: parseMatrix(
+                getTransform(Helper(controls))
+            ),
+            parentMatrix: parseMatrix(
+                getTransform(parent)
+            )
+        };
+
+        this._rotate(angle * Math.PI / 180, snap.angle);
     }
 
     _init() { }

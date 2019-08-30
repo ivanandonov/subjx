@@ -419,6 +419,8 @@ export default class Draggable extends Subject {
             matrix,
             parentMatrix
         } = transform;
+        //console.log('matrix', matrix);
+        //console.log('parentMatrix', parentMatrix);
 
         const cos = floatToFixed(Math.cos(radians)),
             sin = floatToFixed(Math.sin(radians));
